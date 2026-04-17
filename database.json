@@ -1,0 +1,102 @@
+{
+  "users": [
+    {
+      "username": "gowthami",
+      "password": "gowtham",
+      "role": "Citizen"
+    },
+    {
+      "username": "gowtham",
+      "password": "gowthami",
+      "role": "BankOfficer"
+    },
+    {
+      "username": "gow",
+      "password": "gowthamii",
+      "role": "Officer",
+      "email": "gowthami1@gmail.com"
+    },
+    {
+      "username": "goww",
+      "password": "gowthamm",
+      "role": "Citizen",
+      "email": "goww@gmail.com"
+    }
+  ],
+  "appointments": [
+    {
+      "id": "aca14702-7577-4eff-8107-8382f9e1c8f4",
+      "username": "gowthami",
+      "service": "Caste Certificate",
+      "date": "2026-04-17",
+      "time": "02:00 PM",
+      "status": "approved"
+    },
+    {
+      "id": "174bbbfb-fc9d-4479-8fe8-eb44f65dd396",
+      "username": "gowthami",
+      "service": "Caste Certificate (SC / ST / BC)",
+      "date": "2026-04-16",
+      "time": "10:00 AM",
+      "status": "rejected"
+    },
+    {
+      "id": "1216c5e7-9751-47e7-8e74-92b20cc5c9dd",
+      "username": "gowthami",
+      "service": "Caste Certificate (SC / ST / BC)",
+      "date": "2026-04-16",
+      "time": "03:00 PM",
+      "status": "approved"
+    },
+    {
+      "id": "0e0b301b-8a95-4a27-ba78-60714d1d44f2",
+      "username": "goww",
+      "service": "YSR Pension Schemes",
+      "date": "2026-04-16",
+      "time": "02:30 PM",
+      "status": "Accepted"
+    },
+    {
+      "id": "9ab8aa5e-e671-4ddf-b7c9-1e17dfb03b24",
+      "username": "goww",
+      "service": "Income Certificate (AP)",
+      "date": "2026-04-16",
+      "time": "09:00 AM",
+      "status": "Accepted"
+    },
+    {
+      "id": "188c19a1-9990-4d6c-8142-af8154c8af75",
+      "username": "goww",
+      "service": "EWS Certificate",
+      "date": "2026-04-16",
+      "time": "09:30 AM",
+      "status": "Accepted"
+    },
+    {
+      "id": "3249e182-6f15-4ca6-9315-abaddd96bd51",
+      "username": "gowthami",
+      "service": "Test Service",
+      "date": "2026-04-18",
+      "time": "11:00 AM",
+      "status": "approved"
+    },
+    {
+      "id": "876b7fb9-a54c-40d8-a906-d489c16c1b53",
+      "username": "gowthami",
+      "mobile": "9704326497",
+      "service": "Caste Certificate (SC / ST / BC)",
+      "date": "2026-04-17",
+      "time": "09:30 AM",
+      "status": "approved"
+    },
+    {
+      "id": "f25d47c4-1895-4cb9-8693-c07cd10b1600",
+      "username": "gowthami",
+      "mobile": "9704326497",
+      "service": "MGNREGA Job Card",
+      "date": "2026-04-17",
+      "time": "02:30 PM",
+      "status": "Pending"
+    }
+  ]
+}

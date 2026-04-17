@@ -1,0 +1,1747 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>AP Sachivalayam Services</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            text-align: center;
+        }
+
+        header {
+            background: #ffffff;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .back-btn {
+            display: none;
+            background: #f57c00;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            padding: 12px 0;
+        }
+
+        .top-nav span {
+            cursor: pointer;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            color: #495057;
+        }
+
+        .top-nav span:hover {
+            background: #e9ecef;
+            color: #212529;
+        }
+
+        /* Microphone button */
+        .mic-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 10px;
+            border-radius: 6px;
+            background: #fff;
+            border: 2px solid #f57c00;
+            color: #f57c00;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .mic-btn.listening {
+            background: linear-gradient(90deg, #f44336, #ff7043);
+            color: #fff;
+            border-color: #ff7043;
+        }
+
+        /* Auth Styling - Enhanced */
+        .auth-section {
+            max-width: 450px;
+            margin: 60px auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 25px;
+            background: #f1f5f9;
+            border-radius: 14px;
+            padding: 4px;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #64748b;
+            border-radius: 11px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
+        }
+
+        .auth-tab.active {
+            color: #fff;
+            background: #f57c00;
+            box-shadow: 0 4px 10px rgba(245, 124, 0, 0.25);
+        }
+
+        .auth-form div {
+            margin-bottom: 20px;
+        }
+
+        .auth-form label {
+            font-size: 13px;
+            font-weight: 700;
+            color: #475569;
+            margin-bottom: 6px;
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .auth-form input,
+        .auth-form select {
+            width: 100%;
+            padding: 13px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            box-sizing: border-box;
+            background: #f8fafc;
+            font-size: 15px;
+        }
+
+        .auth-form input:focus {
+            outline: none;
+            border-color: #f57c00;
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(245, 124, 0, 0.1);
+        }
+
+        .auth-form button {
+            width: 100%;
+            margin-top: 15px;
+            padding: 14px;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Officer Table Styling */
+        .officer-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .officer-table th,
+        .officer-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .officer-table th {
+            background: #f8f9fa;
+            font-weight: bold;
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status-pending {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+
+        .status-approved {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .status-rejected {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .btn-accept {
+            background: #4caf50;
+            color: #fff;
+            margin-right: 5px;
+        }
+
+        .btn-reject {
+            background: #f44336;
+            color: #fff;
+        }
+
+        .role-select {
+            display: none;
+        }
+
+        .role-btn {
+            padding: 18px 28px;
+            border-radius: 10px;
+            border: 2px solid #2196f3;
+            background: #fff;
+            color: #2196f3;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(33, 150, 243, 0.08);
+            font-size: 16px;
+        }
+
+        .role-btn.officer {
+            border-color: #ff9800;
+            color: #ff9800;
+        }
+
+        .officer-view {
+            display: none;
+            max-width: 720px;
+            margin: 30px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+            text-align: left;
+        }
+
+        .officer-view .form-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin: 10px 0
+        }
+
+        .officer-view label {
+            min-width: 110px;
+            font-weight: bold
+        }
+
+        .officer-auth {
+            display: none;
+            max-width: 520px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 18px;
+            border-radius: 10px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+            text-align: left;
+        }
+
+        .officer-auth .row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin: 8px 0
+        }
+
+        .officer-auth label {
+            min-width: 110px;
+            font-weight: bold
+        }
+
+        .officer-auth input,
+        .officer-auth select {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 6px
+        }
+
+        .otp-note {
+            font-size: 13px;
+            color: #666;
+            margin-top: 8px
+        }
+
+        .online {
+            color: green;
+            font-weight: bold;
+        }
+
+        .hero,
+        .services,
+        .details {
+            padding: 40px;
+        }
+
+        .services,
+        .details {
+            display: none;
+        }
+
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        #langToggle {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        .primary {
+            background: #f57c00;
+            color: #fff;
+        }
+
+        .outline {
+            background: #fff;
+            border: 2px solid #f57c00;
+            color: #f57c00;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .service-categories {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .category-btn {
+            padding: 12px 24px;
+            border: 2px solid #2196f3;
+            background: #fff;
+            color: #2196f3;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .category-btn.active {
+            background: #2196f3;
+            color: #fff;
+        }
+
+        .category-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+        }
+
+        .card.government,
+        .card.banking {
+            display: block;
+        }
+
+        .card.banking {
+            display: none;
+        }
+
+        .details {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        ul {
+            line-height: 1.8;
+        }
+
+        .progress-bar {
+            display: none;
+            margin: 20px 0;
+            width: 100%;
+            background: #e0e0e0;
+            border-radius: 10px;
+            height: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #4caf50, #8bc34a);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .booking-section {
+            display: none;
+            margin: 30px 0;
+            padding: 20px;
+            background: #f0f8ff;
+            border-radius: 10px;
+            border: 2px solid #2196f3;
+        }
+
+        .quick-book-btn {
+            background: linear-gradient(135deg, #ff6b6b, #f57c00);
+            color: #fff;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 10px;
+        }
+
+        .quick-book-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
+        }
+
+        .booking-cta {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .booking-cta h3 {
+            margin: 0 0 10px 0;
+            font-size: 18px;
+        }
+
+        .booking-cta p {
+            margin: 0 0 15px 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .booking-cta button {
+            background: #fff;
+            color: #667eea;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .booking-cta button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-group {
+            margin: 15px 0;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .time-slot {
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .time-slot.available {
+            background: #e8f5e9;
+            border-color: #4caf50;
+        }
+
+        .time-slot.available:hover {
+            background: #c8e6c9;
+            transform: scale(1.05);
+        }
+
+        .time-slot.unavailable {
+            background: #ffebee;
+            border-color: #f44336;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .time-slot.selected {
+            background: #4caf50;
+            color: #fff;
+            border-color: #2e7d32;
+        }
+
+        .token-section {
+            display: none;
+            margin: 20px 0;
+            padding: 20px;
+            background: #fff3e0;
+            border-radius: 10px;
+            border: 2px solid #ff9800;
+            text-align: center;
+        }
+
+        .token-number {
+            font-size: 48px;
+            font-weight: bold;
+            color: #ff9800;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .token-details {
+            text-align: left;
+            margin-top: 15px;
+            font-size: 14px;
+            background: #fff;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .appointments-view {
+            display: none;
+        }
+
+        .appointment-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 24px;
+            margin: 20px 0;
+            text-align: left;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            border: 1px solid #f1f5f9;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .appointment-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .appointment-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 6px;
+            background: #f57c00;
+        }
+
+        .appointment-card.status-approved::before {
+            background: #10b981;
+        }
+
+        .appointment-card.status-rejected::before {
+            background: #ef4444;
+        }
+
+        .appointment-card.status-pending::before {
+            background: #f57c00;
+        }
+
+        .appointment-card h4 {
+            color: #1e293b;
+            margin: 0 0 12px 0;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .appointment-info-row {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-top: 15px;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .appointment-info-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .no-appointments {
+            padding: 40px 20px;
+            text-align: center;
+            color: #999;
+            font-size: 16px;
+        }
+
+        .queue-status-view {
+            display: none;
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .queue-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 20px;
+        }
+
+        .queue-container {
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .queue-info-card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+        }
+
+        .queue-current-token {
+            background: linear-gradient(135deg, #ff9800, #f57c00);
+            color: #fff;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .queue-current-token p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .token-display {
+            font-size: 48px;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+        }
+
+        .queue-details {
+            padding: 20px;
+        }
+
+        .queue-detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            align-items: center;
+        }
+
+        .queue-detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .queue-detail-label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .queue-detail-value {
+            color: #f57c00;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .queue-detail-value.time {
+            color: #4caf50;
+        }
+
+        .queue-status-badge {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            color: #856404;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .user-info-badge {
+            background: #e3f2fd;
+            border: 2px solid #2196f3;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .user-info-badge p {
+            margin: 8px 0;
+        }
+
+        .user-info-badge strong {
+            color: #2196f3;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .top-nav {
+                gap: 15px;
+                padding: 8px 0;
+            }
+
+            .top-nav span {
+                padding: 6px 12px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <button id="backBtn" class="back-btn" onclick="handleBack()" title="Go back">← Back</button>
+        <h3>InfoNEXUS</h3>
+        <div class="header-right">
+            <button id="micBtn" class="mic-btn" onclick="toggleMic()" title="Voice commands">🎤 <span
+                    id="micLabel">Mic</span></button>
+            <button id="langToggle" class="primary" onclick="toggleLanguage()">తెలుగు</button>
+        </div>
+    </header>
+
+    <!-- Navigation Bar -->
+    <nav class="top-nav" id="topNav" style="display:none;">
+        <span onclick="goHome()" data-en="Home" data-te="హోమ్">Home</span>
+        <span onclick="showServices()" data-en="Services" data-te="సేవలు">Services</span>
+        <span onclick="showAppointments()" data-en="Appointments" data-te="నియామకాలు">Appointments</span>
+        <span onclick="showQueueStatus()" data-en="Queue Status" data-te="క్యూ స్థితి">Queue Status</span>
+        <span onclick="logout()" data-en="Logout" data-te="నిష్క్రమించు" style="color: #c62828;">Logout</span>
+    </nav>
+
+    <!-- Auth Section -->
+    <div id="authSection" class="auth-section">
+        <div class="auth-tabs">
+            <div id="loginTab" class="auth-tab active" onclick="switchAuth('login')">Login</div>
+            <div id="registerTab" class="auth-tab" onclick="switchAuth('register')">Sign Up</div>
+        </div>
+
+        <form id="authForm" class="auth-form" onsubmit="handleAuth(event)">
+            <div id="emailField" style="display:none;">
+                <label>Email ID</label>
+                <input type="email" id="authEmail" placeholder="Enter your email">
+            </div>
+            <div id="mobileField" style="display:none;">
+                <label>Mobile Number</label>
+                <input type="text" id="authMobile" placeholder="Enter your mobile" maxlength="10">
+            </div>
+            <div>
+                <label>Username</label>
+                <input type="text" id="authUsername" required placeholder="Choose a username">
+            </div>
+            <div id="roleField" style="display:none;">
+                <label>Role</label>
+                <select id="authRole">
+                    <option value="Citizen">Citizen</option>
+                    <option value="Officer">Officer</option>
+                </select>
+            </div>
+            <div>
+                <label>Password</label>
+                <input type="password" id="authPassword" required placeholder="Enter password">
+            </div>
+            <div id="confirmPasswordField" style="display:none;">
+                <label>Confirm Password</label>
+                <input type="password" id="authConfirmPassword" placeholder="Confirm password">
+            </div>
+            <button type="submit" class="primary" id="authSubmitBtn">Login</button>
+        </form>
+    </div>
+
+    <!-- Officer View -->
+    <div id="officerView" class="services" style="max-width: 1000px; margin: auto;">
+        <h2 data-en="Officer Dashboard - manage Appointments" data-te="అధికారి డాష్బోర్డ్ - నియామకాలను నిర్వహించండి">
+            Officer Dashboard</h2>
+        <table class="officer-table">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Service</th>
+                    <th>Date/Time</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="officerAptsTable">
+                <!-- Loaded via JS -->
+            </tbody>
+        </table>
+        <br>
+        <button class="outline" onclick="logout()" data-en="Sign Out" data-te="నిష్క్రమించు">Sign Out</button>
+    </div>
+
+    <div id="officerAuth" class="officer-auth" aria-hidden="true">
+        <h3>Officer Sign Up / Login</h3>
+        <div class="row">
+            <label for="officerAuthName">Name</label>
+            <input id="officerAuthName" placeholder="Full name" />
+        </div>
+        <div class="row">
+            <label for="officerAuthId">Officer ID</label>
+            <input id="officerAuthId" placeholder="Employee ID" />
+        </div>
+        <div class="row">
+            <label for="officerAuthMobile">Mobile</label>
+            <input id="officerAuthMobile" placeholder="10-digit mobile" />
+        </div>
+        <div class="row">
+            <label for="officerAuthRole">Role</label>
+            <select id="officerAuthRole">
+                <option value="officer">Officer</option>
+            </select>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:12px;align-items:center">
+            <button id="officerSendOtp">Send OTP</button>
+            <input id="officerOtp" placeholder="Enter OTP"
+                style="width:140px;padding:8px;border:1px solid #ddd;border-radius:6px" />
+            <button id="officerVerifyOtp">Verify</button>
+            <button id="officerAuthCancel" style="margin-left:auto;background:#eee">Cancel</button>
+        </div>
+        <div class="otp-note">Note: This demo simulates OTP. In production, use a server SMS gateway or Web OTP API on a
+            secure origin.</div>
+    </div>
+
+    <!-- HOME -->
+    <div id="home" class="hero">
+        <h1 data-en="Document Guidance and Appointment Booking"
+            data-te="పత్ర మార్గదర్శకత్వం మరియు అపాయింట్‌మెంట్ బుకింగ్">Document Guidance and Appointment Booking</h1>
+        <p style="color:#f57c00" data-en="Easy access to document guidance and appointment booking"
+            data-te="పత్ర మార్గదర్శకత్వం మరియు అపాయింట్‌మెంట్ బుకింగ్‌కు సులభ ప్రవేశం">Easy access to document guidance
+            and appointment booking</p>
+        <p data-en="All government and banking services in one place easy and fast"
+            data-te="అన్ని ప్రభుత్వ మరియు బ్యాంకింగ్ సేవలు ఒకే చోట సులభంగా మరియు వేగంగా">All government and banking
+            services in one place easy and fast</p>
+
+        <!-- Booking CTA -->
+        <div class="booking-cta">
+            <h3 data-en="📅 Book an Appointment" data-te="📅 నియామకం బుక్ చేయండి">📅 Book an Appointment</h3>
+            <p data-en="Select a service and book your appointment with available time slots"
+                data-te="ఒక సేవ ఎంచుకుని అందుబాటులో ఉన్న సమయ స్లాట్లతో మీ నియామకం బుక్ చేయండి">Select a service and
+                book your appointment with available time slots</p>
+            <button class="primary" onclick="showServices()" data-en="Start Booking →"
+                data-te="బుకింగ్ ప్రారంభించండి →">Start Booking →</button>
+        </div>
+
+        <button class="primary" onclick="showServices()" data-en="Get Started →" data-te="ప్రారంభించండి →">Get Started
+            →</button>
+    </div>
+
+    <!-- SERVICES -->
+    <div id="services" class="services">
+        <h2 data-en="Select a Service" data-te="సేవ ఎంచుకోండి">Select a Service</h2>
+
+        <!-- Service Category Buttons -->
+        <div class="service-categories">
+            <button class="category-btn active" data-category="government" onclick="filterServices('government')"
+                data-en="Government Services" data-te="ప్రభుత్వ సేవలు">Government Services</button>
+            <button class="category-btn" data-category="banking" onclick="filterServices('banking')"
+                data-en="Banking Services" data-te="బ్యాంకింగ్ సేవలు">Banking Services</button>
+        </div>
+
+        <div class="grid">
+            <div class="card government" onclick="showDetails('income')">📄 <span data-en="Income Certificate"
+                    data-te="ఆదాయ సర్టిఫికేట్">Income Certificate</span></div>
+            <div class="card government" onclick="showDetails('caste')">🧾 <span data-en="Caste Certificate"
+                    data-te="జాతి సర్టిఫికేట్">Caste Certificate</span></div>
+            <div class="card government" onclick="showDetails('residence')">🏠 <span data-en="Residence Certificate"
+                    data-te="నివాస సర్టిఫికేట్">Residence Certificate</span></div>
+            <div class="card government" onclick="showDetails('ews')">📊 <span data-en="EWS Certificate"
+                    data-te="EWS సర్టిఫికేట్">EWS Certificate</span></div>
+            <div class="card government" onclick="showDetails('birth')">👶 <span data-en="Birth Certificate"
+                    data-te="జన్మ సర్టిఫికేట్">Birth Certificate</span></div>
+            <div class="card government" onclick="showDetails('death')">⚰ <span data-en="Death Certificate"
+                    data-te="మరణం సర్టిఫికేట్">Death Certificate</span></div>
+            <div class="card government" onclick="showDetails('pension')">👵 <span data-en="YSR Pensions"
+                    data-te="YSR పెన్షన్లు">YSR Pensions</span></div>
+            <div class="card government" onclick="showDetails('ration')">🛒 <span data-en="Ration Card"
+                    data-te="రేషన్ కార్డ్">Ration Card</span></div>
+            <div class="card government" onclick="showDetails('land')">📍 <span data-en="Land / Property"
+                    data-te="భూమి / ఆస్తి">Land / Property</span></div>
+            <div class="card government" onclick="showDetails('mgnrega')">👷 <span data-en="MGNREGA Job Card"
+                    data-te="MGNREGA ఉద్యోగ కార్డ్">MGNREGA Job Card</span></div>
+            <div class="card banking" onclick="showDetails('accountopening')">🏦 <span data-en="Account Opening"
+                    data-te="ఖాతా తెరవడం">Account Opening</span></div>
+            <div class="card banking" onclick="showDetails('loans')">💰 <span data-en="Loans"
+                    data-te="రుణాలు">Loans</span>
+            </div>
+            <div class="card banking" onclick="showDetails('debitcard')">💳 <span data-en="Debit Card"
+                    data-te="డెబిట్ కార్డ్">Debit Card</span></div>
+            <div class="card banking" onclick="showDetails('creditcard')">💳 <span data-en="Credit Card"
+                    data-te="క్రెడిట్ కార్డ్">Credit Card</span></div>
+            <div class="card banking" onclick="showDetails('internetbanking')">🌐 <span data-en="Internet Banking"
+                    data-te="ఇంటర్నెట్ బ్యాంకింగ్">Internet Banking</span></div>
+            <div class="card banking" onclick="showDetails('kyc')">🔍 <span data-en="KYC" data-te="KYC">KYC</span></div>
+        </div>
+
+        <br>
+        <button class="outline" onclick="goHome()" data-en="← Home" data-te="← హోమ్">← Home</button>
+    </div>
+
+    <!-- DETAILS -->
+    <div id="details" class="details">
+        <h2 id="serviceTitle"></h2>
+
+        <p style="text-align:center; color:#f57c00; margin:15px 0; font-weight:bold;" data-en="📋 Required Documents"
+            data-te="📋 అవసరమైన డాక్యుమెంట్లు">📋 Required Documents</p>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill">0%</div>
+        </div>
+
+        <!-- Document Checklist -->
+        <ul id="serviceList"></ul>
+
+        <!-- Done Button to show booking -->
+        <button id="doneBtn" class="primary" onclick="showBooking()"
+            style="display:none; margin:20px 0; width:100%; padding:15px; font-size:16;"
+            data-en="✅ Proceed to Booking →" data-te="✅ బుకింగ్కు వెళ్లండి →">✅ Proceed to Booking →</button>
+
+        <!-- Appointment Booking Section -->
+        <div class="booking-section" id="bookingSection">
+            <h3 style="color:#2196f3; margin-top:0;" data-en="📅 Book Your Appointment"
+                data-te="📅 మీ నియామకం బుక్ చేయండి">📅 Book Your Appointment</h3>
+
+            <div class="form-group" id="bookedAsInfo" style="display:none;">
+                <p style="color:#666; font-size:14px; margin-bottom:10px;" id="bookedAsText"></p>
+            </div>
+
+            <div class="form-group" id="userNameGroup">
+                <label data-en="Your Name:" data-te="మీ పేరు:">Your Name:</label>
+                <input type="text" id="userName" placeholder="Enter your full name">
+            </div>
+
+            <div class="form-group" id="userMobileGroup">
+                <label data-en="Mobile Number:" data-te="మోబైల్ నంబర్:">Mobile Number:</label>
+                <input type="text" id="userMobile" placeholder="Enter your mobile number" maxlength="10">
+            </div>
+
+            <div class="form-group">
+                <label data-en="Select Date:" data-te="తేదీ ఎంచుకోండి:">Select Date:</label>
+                <input type="date" id="appointmentDate" min="">
+            </div>
+
+            <h4 data-en="⏰ Available Time Slots:" data-te="⏰ అందుబాటులో ఉన్న సమయ స్లాట్లు:">⏰ Available Time Slots:
+            </h4>
+            <div class="time-slots" id="timeSlots"></div>
+
+            <p style="color:#d32f2f; margin-top:10px; text-align:center;">
+                <span data-en="🟢 Green = Available" data-te="🟢 ఆకుపచ్చ = అందుబాటులో ఉంది">🟢 Green = Available</span>
+                |
+                <span data-en="🔴 Red = Unavailable" data-te="🔴 ఎరుపు = అందుబాటులో లేనిది">🔴 Red = Unavailable</span>
+            </p>
+
+            <button id="confirmAppointmentBtn" class="primary" onclick="confirmAppointment()"
+                style="margin-top:20px; width:100%; padding:12px; font-size:16;" data-en="✅ Confirm & Get Token"
+                data-te="✅ నిర్ధారించండి & టోకెన్ పొందండి">✅ Confirm & Get Token</button>
+        </div>
+
+        <!-- Token Section -->
+        <div class="token-section" id="tokenSection">
+            <h3 style="color:#ff9800; margin-top:0;" data-en="🎉 Appointment Confirmed!"
+                data-te="🎉 నియామకం నిర్ధారించబడింది!">🎉 Appointment Confirmed!</h3>
+            <p data-en="Your Unique Token Number:" data-te="మీ యూనిక్ టోకెన్ నంబర్:">Your Unique Token Number:</p>
+            <div class="token-number" id="tokenNumber"></div>
+            <div class="token-details" id="tokenDetails"></div>
+            <button id="bookAnotherBtn" class="primary" onclick="backToServices()" style="margin-top:12px; width:100%;"
+                data-en="📅 Book Another Service" data-te="📅 మరో సేవ బుక్ చేయండి">📅 Book Another Service</button>
+            <button id="cancelAppointmentBtn" class="outline"
+                onclick="cancelAppointment(document.getElementById('tokenNumber').innerText)"
+                style="margin-top:12px; width:100%;" data-en="❌ Cancel Appointment"
+                data-te="❌ నియామకాన్ని రద్దు చేయండి">❌ Cancel Appointment</button>
+        </div>
+
+        <button class="outline" onclick="backToServices()" id="backBtn" data-en="← Back to Services"
+            data-te="← సేవలకు తిరిగి వెళ్లండి">← Back to Services</button>
+    </div>
+
+    <!-- APPOINTMENTS VIEW -->
+    <div id="appointmentsView" class="appointments-view">
+        <h2 data-en="📅 My Appointments" data-te="📅 నా నియామకాలు">📅 My Appointments</h2>
+        <div id="appointmentsList"></div>
+        <button class="outline" onclick="goHome()" data-en="← Home" data-te="← హోమ్">← Home</button>
+    </div>
+
+    <!-- QUEUE STATUS VIEW -->
+    <div class="queue-status-view" id="queueStatusView">
+        <div class="queue-header">
+            <h2 style="flex:1; margin:0;" data-en="🎫 Queue Status " data-te="🎫 క్యూ స్థితి">🎫 Queue Status
+            </h2>
+        </div>
+
+        <div class="queue-container">
+            <div class="user-info-badge" id="queueUserInfo">
+                <p><strong data-en="👤 User:" data-te="👤 వినియోగదారు:">👤 User:</strong> <span
+                        id="queueUserName">--</span></p>
+                <p><strong data-en="📱 Mobile:" data-te="📱 మోబైల్:">📱 Mobile:</strong> <span
+                        id="queueUserMobile">--</span></p>
+                <p><strong data-en="📋 Service:" data-te="📋 సేవ:">📋 Service:</strong> <span
+                        id="queueUserService">--</span></p>
+            </div>
+
+            <div class="queue-info-card">
+                <div class="queue-current-token">
+                    <p data-en="Your Token" data-te="మీ టోకెన్">Your Token</p>
+                    <div class="token-display" id="queueCurrentToken">--</div>
+                </div>
+
+                <div class="queue-details">
+                    <div class="queue-detail-row">
+                        <span class="queue-detail-label" data-en="🎫 Your Position:" data-te="🎫 మీ స్థానం:">🎫 Your
+                            Position:</span>
+                        <span class="queue-detail-value" id="queuePosition">--</span>
+                    </div>
+
+                    <div class="queue-detail-row">
+                        <span class="queue-detail-label" data-en="👥 People Ahead:" data-te="👥 ముందు ఉన్న జనాలు:">👥
+                            People Ahead:</span>
+                        <span class="queue-detail-value" id="peopleAhead">--</span>
+                    </div>
+
+                    <div class="queue-detail-row">
+                        <span class="queue-detail-label" data-en="⏱️ Estimated Wait Time:"
+                            data-te="⏱️ అంచన వేసిన నిరీక్షణ సమయం:">⏱️ Estimated Wait Time:</span>
+                        <span class="queue-detail-value time" id="estimatedTime">--</span>
+                    </div>
+
+                    <div class="queue-detail-row">
+                        <span class="queue-detail-label" data-en="🔄 Last Updated:" data-te="🔄 చివరిగా నవీకరించిన:">🔄
+                            Last Updated:</span>
+                        <span style="color:#666; font-size:14px;" id="lastUpdated">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <div style="max-width:900px;margin:auto;padding:10px 20px;text-align:left;">
+                <div style="display:flex;gap:8px;align-items:center;justify-content:flex-start;">
+                    <label style="font-weight:bold;margin-right:8px;" data-en="Current served:"
+                        data-te="ప్రస్తుతం సేవలు పొందిన సంఖ్య:">Current served:</label>
+                    <input id="currentServedInput" type="number" min="0"
+                        style="width:80px;padding:6px;border:1px solid #ddd;border-radius:6px;" />
+                    <button class="outline" onclick="updateQueueCount()" style="margin-left:8px;" data-en="Update Queue"
+                        data-te="క్యూ నవీకరించండి">Update Queue</button>
+                    <span style="margin-left:20px;color:#666;" id="totalAppointmentsTodayLabel">Total today: --</span>
+                </div>
+            </div>
+
+            <div class="queue-status-badge" data-en="⏳ Check your position and estimated wait time above"
+                data-te="⏳ పై మీ స్థానం మరియు అంచన సమయాన్ని తనిఖీ చేయండి">⏳ Check your position and estimated wait time
+                above</div>
+
+            <button class="outline" onclick="goHome()" style="margin-top:20px;" data-en="← Back to Home"
+                data-te="← హోమ్కు తిరిగి వెళ్లండి">← Back to Home</button>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:5000/api';
+        let currentLanguage = 'en';
+        let currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+        let currentServiceKey = null;
+        let checkedCount = 0;
+        let selectedTimeSlot = null;
+        let appointments = [];
+        let authMode = 'login';
+
+        function switchAuth(mode) {
+            authMode = mode;
+            document.getElementById('loginTab').classList.toggle('active', mode === 'login');
+            document.getElementById('registerTab').classList.toggle('active', mode === 'register');
+            document.getElementById('emailField').style.display = mode === 'register' ? 'block' : 'none';
+            document.getElementById('mobileField').style.display = mode === 'register' ? 'block' : 'none';
+            document.getElementById('roleField').style.display = mode === 'register' ? 'block' : 'none';
+            document.getElementById('confirmPasswordField').style.display = mode === 'register' ? 'block' : 'none';
+            document.getElementById('authSubmitBtn').innerText = mode === 'login' ? 'Login' : 'Sign Up';
+        }
+
+        async function handleAuth(e) {
+            e.preventDefault();
+            const username = document.getElementById('authUsername').value;
+            const password = document.getElementById('authPassword').value;
+
+            if (authMode === 'register') {
+                const email = document.getElementById('authEmail').value;
+                const mobile = document.getElementById('authMobile').value;
+                const role = document.getElementById('authRole').value;
+                const confirm = document.getElementById('authConfirmPassword').value;
+
+                if (password !== confirm) return alert("Passwords do not match");
+
+                try {
+                    await apiCall('/register', 'POST', { username, email, mobile, role, password });
+                    alert("Registration successful! Please login.");
+                    switchAuth('login');
+                } catch (err) { alert(err.message); }
+            } else {
+                try {
+                    const data = await apiCall('/login', 'POST', { username, password });
+                    currentUser = data;
+                    localStorage.setItem('currentUser', JSON.stringify(data));
+                    initDashboard();
+                } catch (err) { alert(err.message); }
+            }
+        }
+
+        function initDashboard() {
+            currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+            if (!currentUser) {
+                document.getElementById('authSection').style.display = 'block';
+                if (document.getElementById('topNav')) document.getElementById('topNav').style.display = 'none';
+                hideAll();
+                return;
+            }
+            document.getElementById('authSection').style.display = 'none';
+            if (document.getElementById('topNav')) document.getElementById('topNav').style.display = 'flex';
+            if (currentUser.role === 'Officer') {
+                showOfficerDashboard();
+            } else {
+                goHome();
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('currentUser');
+            currentUser = null;
+            location.reload();
+        }
+
+        const servicesData = {
+            income: { titleEn: "Income Certificate (AP)", titleTe: "ఆదాయ సర్టిఫికేట్ (AP)", en: ["Aadhaar Card", "Ration Card", "Address Proof", "Income Proof (Salary / VRO Report)", "Passport Photo", "Mobile Number", "Caste Certificate (students)", "Bonafide / School ID", "Issued by Tahsildar", "Validity: 1 Year"], te: ["ఆధార్ కార్డ్", "రేషన్ కార్డ్", "చిరునామా రుజువు", "ఆదాయ రుజువు (జీతం / VRO నివేదిక)", "పాస్పోర్ట్ ఫోటో", "మొబైల్ నంబర్", "జాతి సర్టిఫికేట్ (విద్యార్థులు)", "బోనాఫైడ్ / స్కూల్ ID", "తహసీల్దారు ద్వారా జారీ", "వ్యవధిత్వ: 1 సంవత్సరం"] },
+            caste: { titleEn: "Caste Certificate (SC / ST / BC)", titleTe: "జాతి సర్టిఫికేట్ (SC / ST / BC)", en: ["Aadhaar Card", "Ration Card", "Address Proof", "Parent's Caste Certificate", "School Study Certificate", "Self Declaration", "Passport Photo", "Issued by Tahsildar"], te: ["ఆధార్ కార్డ్", "రేషన్ కార్డ్", "చిరునామా రుజువు", "తల్లిదండ్రుల జాతి సర్టిఫికేట్", "పాఠశాల అధ్యయన సర్టిఫికేట్", "స్వీయ ప్రకటన", "పాస్పోర్ట్ ఫోటో", "తహసీల్దారు ద్వారా జారీ"] },
+            residence: { titleEn: "Residence / Nativity Certificate", titleTe: "నివాస / స్థానిక సర్టిఫికేట్", en: ["Aadhaar Card", "Ration Card", "Address Proof", "House Tax Receipt", "Study Certificate (students)", "Passport Photo", "VRO Local Enquiry"], te: ["ఆధార్ కార్డ్", "రేషన్ కార్డ్", "చిరునామా రుజువు", "ఇంటి ట్యాక్స్ రసీదు", "అధ్యయన సర్టిఫికేట్ (విద్యార్థులు)", "పాస్పోర్ట్ ఫోటో", "VRO స్థానిక విచారణ"] },
+            ews: { titleEn: "EWS Certificate", titleTe: "EWS సర్టిఫికేట్", en: ["Aadhaar Card", "Ration Card", "Income Certificate", "Property Declaration", "Address Proof", "Passport Photo"], te: ["ఆధార్ కార్డ్", "రేషన్ కార్డ్", "ఆదాయ సర్టిఫికేట్", "ఆస్తి ప్రకటన", "చిరునామా రుజువు", "పాస్పోర్ట్ ఫోటో"] },
+            birth: { titleEn: "Birth Certificate", titleTe: "జన్మ సర్టిఫికేట్", en: ["Hospital Birth Record", "Parents Aadhaar", "Marriage Certificate (optional)", "Affidavit for late registration"], te: ["ఆసుపత్రి జన్మ రికార్డు", "తల్లిదండ్రుల ఆధార్", "వివాహ సర్టిఫికేట్ (ఐచ్ఛికం)", "విలంబ నమోదు కోసం శపథ"] },
+            death: { titleEn: "Death Certificate", titleTe: "మరణం సర్టిఫికేట్", en: ["Hospital Death Slip", "Cremation / Burial Receipt", "Aadhaar of Deceased", "Aadhaar of Informant", "Proof of Relationship"], te: ["ఆసుపత్రి మరణ పర్చా", "దహన / ఖననం రసీదు", "ఆధార్ (వయస్సైన వ్యక్తి)", "ఆధార్ (సమాచారదాత)", "సంబంధం రుజువు"] },
+            pension: { titleEn: "YSR Pension Schemes", titleTe: "YSR పెన్షన్ పథకాలు", en: ["Aadhaar Card", "Ration Card", "Address Proof", "Age Proof", "Bank Account Details", "Passport Photo", "Mobile Number", "Extra: Death Certificate (Widow)", "Extra: Medical Certificate (Disabled)"], te: ["ఆధార్ కార్డ్", "రేషన్ కార్డ్", "చిరునామా రుజువు", "వయస్సు రుజువు", "బ్యాంక్ ఖాతా వివరాలు", "పాస్పోర్ట్ ఫోటో", "మొబైల్ నంబర్", "అదనం: మరణ సర్టిఫికేట్ (విధవ)", "అదనం: వైద్య సర్టిఫికేట్ (వికలాంగ)"] },
+            ration: { titleEn: "Ration Card Services", titleTe: "రేషన్ కార్డ్ సేవలు", en: ["Aadhaar (All Family Members)", "Address Proof", "Existing Ration Card", "Income Proof", "Marriage Certificate", "Birth Certificate", "Deletion Certificate"], te: ["ఆధార్ (అన్ని కుటుంబ సభ్యులు)", "చిరునామా రుజువు", "ప్రస్తుత రేషన్ కార్డ్", "ఆదాయ రుజువు", "వివాహ సర్టిఫికేట్", "జన్మ సర్టిఫికేట్", "తొలగింపు సర్టిఫికేట్"] },
+            land: { titleEn: "Land / Property Services", titleTe: "భూమి / ఆస్తి సేవలు", en: ["Aadhaar Card", "Registered Sale / Gift Deed", "Previous Pattadar Passbook", "Encumbrance Certificate", "Tax Receipt", "Photographs"], te: ["ఆధార్ కార్డ్", "నమోదు చేసిన విక్రయ / గిఫ్ట్ డీడ్", "మునుపటి పట్టదారి పాస్బుక్", "అభిభవం సర్టిఫికేట్", "ట్యాక్స్ రసీదు", "ఫోటోగ్రాఫ్లు"] },
+            mgnrega: { titleEn: "MGNREGA Job Card", titleTe: "MGNREGA ఉద్యోగ కార్డ్", en: ["Aadhaar Card", "Ration Card", "Address Proof", "Age Proof (18+)", "Bank Account Details", "Passport Photo"], te: ["ఆధార్ కార్డ్", "రేషన్ కార్డ్", "చిరునామా రుజువు", "వయస్సు రుజువు (18+)", "బ్యాంక్ ఖాతా వివరాలు", "పాస్పోర్ట్ ఫోటో"] },
+            accountopening: { titleEn: "Account Opening", titleTe: "ఖాతా తెరవడం", en: ["ID Proof", "Address Proof", "Photograph", "PAN Card"], te: ["ID రుజువు", "చిరునామా రుజువు", "ఫోటోగ్రాఫ్", "PAN కార్డ్"] },
+            loans: { titleEn: "Loans", titleTe: "రుణాలు", en: ["ID Proof", "Address Proof", "Income Proof", "Property Documents"], te: ["ID రుజువు", "చిరునామా రుజువు", "ఆదాయ రుజువు", "ఆస్తి డాక్యుమెంట్లు"] },
+            debitcard: { titleEn: "Debit Card", titleTe: "డెబిట్ కార్డ్", en: ["ID Proof", "Account Details", "Photograph"], te: ["ID రుజువు", "ఖాతా వివరాలు", "ఫోటోగ్రాఫ్"] },
+            creditcard: { titleEn: "Credit Card", titleTe: "క్రెడిట్ కార్డ్", en: ["ID Proof", "Address Proof", "Income Proof", "PAN Card"], te: ["ID రుజువు", "చిరునామా రుజువు", "ఆదాయ రుజువు", "PAN కార్డ్"] },
+            internetbanking: { titleEn: "Internet Banking", titleTe: "ఇంటర్నెట్ బ్యాంకింగ్", en: ["ID Proof", "Account Details", "Mobile Number"], te: ["ID రుజువు", "ఖాతా వివరాలు", "మొబైల్ నంబర్"] },
+            kyc: { titleEn: "KYC", titleTe: "KYC", en: ["ID Proof", "Address Proof", "Photograph", "PAN Card"], te: ["ID రుజువు", "చిరునామా రుజువు", "ఫోటోగ్రాఫ్", "PAN కార్డ్"] }
+        };
+
+        const homeDiv = document.getElementById("home");
+        const servicesDiv = document.getElementById("services");
+        const detailsDiv = document.getElementById("details");
+        const bookingSection = document.getElementById("bookingSection");
+        const tokenSection = document.getElementById("tokenSection");
+        const appointmentsView = document.getElementById("appointmentsView");
+        const titleEl = document.getElementById("serviceTitle");
+        const listEl = document.getElementById("serviceList");
+        const progressBar = document.querySelector(".progress-bar");
+        const progressFill = document.getElementById("progressFill");
+        const doneBtn = document.getElementById("doneBtn");
+        const langToggle = document.getElementById("langToggle");
+
+        // API Helper Function
+        async function apiCall(endpoint, method = 'GET', body = null) {
+            const options = {
+                method,
+                headers: { 'Content-Type': 'application/json' }
+            };
+            if (body) options.body = JSON.stringify(body);
+
+            try {
+                const response = await fetch(`${API_BASE_URL}${endpoint}`, options);
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.message || 'Something went wrong');
+                return data;
+            } catch (error) {
+                console.error('API Error:', error);
+                throw error;
+            }
+        }
+
+        async function loadAppointments() {
+            try {
+                // Add timestamp to prevent browser caching of the JSON response
+                appointments = await apiCall(`/appointments?t=${Date.now()}`);
+            } catch (e) {
+                appointments = [];
+            }
+        }
+
+        function toggleLanguage() {
+            currentLanguage = currentLanguage === 'en' ? 'te' : 'en';
+            langToggle.innerText = currentLanguage === 'en' ? 'తెలుగు' : 'English';
+            updatePageLanguage();
+            const micLabel = document.getElementById('micLabel');
+            if (micLabel) micLabel.innerText = currentLanguage === 'en' ? 'Mic' : 'మైక్';
+        }
+
+        function updatePageLanguage() {
+            document.querySelectorAll('[data-en]').forEach(el => {
+                el.innerText = currentLanguage === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-te');
+            });
+            if (detailsDiv.style.display !== 'none' && currentServiceKey) {
+                renderChecklist();
+            }
+        }
+
+        function updateBackButton() {
+            const backBtn = document.getElementById('backBtn');
+            if (!backBtn) return;
+
+            const roleSelect = document.getElementById('roleSelect');
+            const authView = document.getElementById('authView');
+            const homeView = document.getElementById('home');
+
+            if ((roleSelect && roleSelect.style.display === 'flex') ||
+                (authView && authView.style.display === 'flex') ||
+                (authView && authView.style.display === 'block')) {
+                backBtn.style.display = 'none';
+            } else {
+                backBtn.style.display = 'block';
+            }
+        }
+
+        function handleBack() {
+            if (document.getElementById('queueStatusView').style.display !== 'none') { goHome(); return; }
+            if (document.getElementById('appointmentsView').style.display !== 'none') { goHome(); return; }
+            if (document.getElementById('tokenSection').style.display !== 'none') { backToServices(); return; }
+            if (document.getElementById('bookingSection').style.display !== 'none') {
+                bookingSection.style.display = 'none';
+                tokenSection.style.display = 'none';
+                detailsDiv.style.display = 'block';
+                return;
+            }
+            if (document.getElementById('details').style.display !== 'none') { showServices(); return; }
+            if (document.getElementById('services').style.display !== 'none') { goHome(); return; }
+            if (document.getElementById('home').style.display !== 'none') {
+                document.getElementById('roleSelect').style.display = 'flex';
+                homeDiv.style.display = 'none';
+                return;
+            }
+        }
+
+        function showServices() {
+            hideAll();
+            servicesDiv.style.display = "block";
+            updateBackButton();
+            filterServices('government');
+        }
+
+        function filterServices(category) {
+            const buttons = document.querySelectorAll('.category-btn');
+            buttons.forEach(btn => {
+                btn.classList.toggle('active', btn.getAttribute('data-category') === category);
+            });
+
+            const governmentCards = document.querySelectorAll('.card.government');
+            const bankingCards = document.querySelectorAll('.card.banking');
+
+            if (category === 'government') {
+                governmentCards.forEach(card => card.style.display = 'block');
+                bankingCards.forEach(card => card.style.display = 'none');
+            } else {
+                governmentCards.forEach(card => card.style.display = 'none');
+                bankingCards.forEach(card => card.style.display = 'block');
+            }
+        }
+
+        function goHome() {
+            hideAll();
+            homeDiv.style.display = "block";
+            updateBackButton();
+        }
+
+        function showDetails(key) {
+            hideAll();
+            currentServiceKey = key;
+            checkedCount = 0;
+            selectedTimeSlot = null;
+            detailsDiv.style.display = "block";
+            renderChecklist();
+            updateBackButton();
+        }
+
+        function renderChecklist() {
+            const data = servicesData[currentServiceKey];
+            titleEl.innerText = currentLanguage === 'en' ? data.titleEn : data.titleTe;
+            const list = currentLanguage === 'en' ? data.en : data.te;
+            listEl.innerHTML = list.map((item, i) => `
+                <li style="list-style:none; margin-bottom:10px; padding:10px; background:#fff; border-radius:5px; box-shadow:0 2px 5px rgba(0,0,0,0.05); display:flex; align-items:center;">
+                    <input type="checkbox" id="doc${i}" onchange="updateProgress()" style="width:20px; height:20px; margin-right:15px; cursor:pointer;">
+                    <label for="doc${i}" style="cursor:pointer; flex:1;">${item}</label>
+                </li>
+            `).join("");
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll("#serviceList input[type='checkbox']");
+            checkedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
+            const totalCount = checkboxes.length;
+            const percentage = Math.round((checkedCount / totalCount) * 100);
+
+            progressBar.style.display = "block";
+            progressFill.style.width = percentage + "%";
+            progressFill.innerText = percentage + "%";
+
+            doneBtn.style.display = (checkedCount === totalCount && totalCount > 0) ? "block" : "none";
+        }
+
+        function showBooking() {
+            bookingSection.style.display = "block";
+            doneBtn.style.display = "none";
+
+            if (currentUser) {
+                document.getElementById('bookedAsInfo').style.display = 'block';
+                document.getElementById('bookedAsText').innerText = currentLanguage === 'en' ? `Booking as: ${currentUser.username}` : `బుకింగ్: ${currentUser.username}`;
+                document.getElementById('userNameGroup').style.display = 'none';
+                // Always show mobile input since the user requested to capture it manually during booking
+                document.getElementById('userMobileGroup').style.display = 'block';
+            } else {
+                document.getElementById('bookedAsInfo').style.display = 'none';
+                document.getElementById('userNameGroup').style.display = 'block';
+                document.getElementById('userMobileGroup').style.display = 'block';
+            }
+
+            initAppointmentForm();
+            bookingSection.scrollIntoView({ behavior: "smooth" });
+        }
+
+        function initAppointmentForm() {
+            const today = new Date();
+            const minDate = today.toISOString().split('T')[0];
+            document.getElementById("appointmentDate").setAttribute("min", minDate);
+            document.getElementById("appointmentDate").value = minDate;
+            generateTimeSlots();
+            document.getElementById("appointmentDate").addEventListener('change', generateTimeSlots);
+        }
+
+        function generateTimeSlots() {
+            const timeSlots = ["09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM", "01:00 PM", "01:30 PM", "02:00 PM", "02:30 PM", "03:00 PM", "03:30 PM"];
+            const slotsHTML = timeSlots.map((time, index) => `
+                <div class="time-slot available" onclick="selectTimeSlot(this, '${time}')" id="slot${index}">${time}</div>
+            `).join("");
+            document.getElementById("timeSlots").innerHTML = slotsHTML;
+            selectedTimeSlot = null;
+        }
+
+        function selectTimeSlot(element, time) {
+            document.querySelectorAll(".time-slot").forEach(slot => slot.classList.remove("selected"));
+            element.classList.add("selected");
+            selectedTimeSlot = time;
+        }
+
+        async function confirmAppointment() {
+            const name = currentUser ? currentUser.username : document.getElementById("userName").value.trim();
+            const mobile = document.getElementById("userMobile").value.trim();
+            const date = document.getElementById("appointmentDate").value;
+
+            if (!name || !date || !selectedTimeSlot || !mobile) {
+                return alert("Please complete all fields, including your mobile number.");
+            }
+            if (mobile.length !== 10 || isNaN(mobile)) {
+                return alert("Please enter a valid 10-digit mobile number.");
+            }
+
+            try {
+                const res = await apiCall('/book', 'POST', {
+                    username: name,
+                    mobile: mobile,
+                    service: servicesData[currentServiceKey].titleEn,
+                    date,
+                    time: selectedTimeSlot
+                });
+                displayToken(res.appointment);
+            } catch (e) {
+                alert(e.message);
+            }
+        }
+
+        function displayToken(apt) {
+            bookingSection.style.display = "none";
+            tokenSection.style.display = "block";
+            const token = apt.id.slice(0, 8).toUpperCase();
+            document.getElementById("tokenNumber").innerText = token;
+            document.getElementById("tokenDetails").innerHTML = `
+                <p><strong>Service:</strong> ${apt.service}</p>
+                <p><strong>User:</strong> ${apt.username}</p>
+                <p><strong>Date:</strong> ${apt.date}</p>
+                <p><strong>Time:</strong> ${apt.time}</p>
+            `;
+
+            // Save last booked info for Queue Status
+            localStorage.setItem('lastBookedToken', token);
+            localStorage.setItem('lastBookedService', apt.service);
+            localStorage.setItem('lastBookedUser', apt.username);
+
+            // Refresh appointments data
+            loadAppointments();
+
+            // Refresh queue status if it's currently displayed
+            if (document.getElementById("queueStatusView").style.display === "block") {
+                showQueueStatus();
+            }
+        }
+
+        async function showAppointments() {
+            hideAll();
+            appointmentsView.style.display = "block";
+            await loadAppointments();
+
+            const list = document.getElementById("appointmentsList");
+            const my = appointments.filter(a => a.username === (currentUser ? currentUser.username : ""));
+
+            if (my.length === 0) {
+                list.innerHTML = `<div class="no-appointments">No appointments yet</div>`;
+            } else {
+                list.innerHTML = my.reverse().map(apt => `
+                    <div class="appointment-card status-${apt.status.toLowerCase()}">
+                        <div style="display:flex; justify-content:space-between; align-items:start;">
+                            <h4>🏷️ ${apt.service}</h4>
+                            <span class="status-badge status-${apt.status.toLowerCase()}">${apt.status}</span>
+                        </div>
+                        <div class="appointment-info-row">
+                            <div class="appointment-info-item">📅 ${apt.date}</div>
+                            <div class="appointment-info-item">⏰ ${apt.time}</div>
+                            <div class="appointment-info-item">🎫 Token: ${apt.id.slice(0, 8).toUpperCase()}</div>
+                        </div>
+                    </div>
+                `).join("");
+            }
+            updateBackButton();
+        }
+
+        let queueRefreshInterval = null;
+
+        async function cancelAppointment(tokenId) {
+            if (!confirm("Are you sure you want to cancel this appointment?")) return;
+
+            try {
+                // Find the appointment by token ID
+                await loadAppointments();
+                const appointment = appointments.find(a => a.id.slice(0, 8).toUpperCase() === tokenId);
+
+                if (!appointment) {
+                    alert("Appointment not found");
+                    return;
+                }
+
+                // Delete the appointment
+                await apiCall(`/appointments/${appointment.id}`, 'DELETE');
+                alert("Appointment cancelled successfully");
+
+                // Refresh the view
+                backToServices();
+            } catch (error) {
+                alert("Failed to cancel appointment: " + error.message);
+            }
+        }
+
+        async function showQueueStatus() {
+            try {
+                hideAll();
+                document.getElementById("queueStatusView").style.display = "block";
+                updateBackButton();
+
+                currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+                if (!currentUser) return initDashboard();
+
+                // Fetch queue data from backend API
+                const queueData = await apiCall(`/queue?username=${encodeURIComponent(currentUser.username)}&t=${Date.now()}`);
+
+                const nameEl = document.getElementById("queueUserName");
+                const mobileEl = document.getElementById("queueUserMobile");
+                const serviceEl = document.getElementById("queueUserService");
+                const tokenEl = document.getElementById("queueCurrentToken");
+                const posEl = document.getElementById("queuePosition");
+                const aheadEl = document.getElementById("peopleAhead");
+                const timeEl = document.getElementById("estimatedTime");
+                const updateEl = document.getElementById("lastUpdated");
+                const totalEl = document.getElementById("totalAppointmentsTodayLabel");
+
+                // Get current served count
+                const currentServed = parseInt(localStorage.getItem('currentServedCount') || '0');
+                const servedInputEl = document.getElementById("currentServedInput");
+                if (servedInputEl) servedInputEl.value = currentServed;
+
+                if (queueData.userInfo) {
+                    // User has an approved appointment in queue
+                    const userInfo = queueData.userInfo;
+                    const adjustedPosition = Math.max(1, userInfo.position - currentServed);
+                    const adjustedPeopleAhead = Math.max(0, userInfo.peopleAhead - currentServed);
+
+                    // Recalculate expected time based on adjusted position
+                    const parseTime = (t) => {
+                        if (!t) return 0;
+                        const parts = t.split(' ');
+                        if (parts.length < 2) return 0;
+                        const [time, period] = parts;
+                        let [h, m] = time.split(':').map(Number);
+                        if (period === 'PM' && h !== 12) h += 12;
+                        if (period === 'AM' && h === 12) h = 0;
+                        return h * 60 + m;
+                    };
+
+                    const baseMin = parseTime(userInfo.appointment.time);
+                    const expectedMin = baseMin + (adjustedPeopleAhead * 10);
+
+                    const formatTime = (totalMin) => {
+                        let h = Math.floor(totalMin / 60) % 24;
+                        let m = totalMin % 60;
+                        const p = h >= 12 ? 'PM' : 'AM';
+                        h = h % 12 || 12;
+                        return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')} ${p}`;
+                    };
+
+                    nameEl.innerText = userInfo.appointment.username;
+                    mobileEl.innerText = userInfo.appointment.mobile || currentUser.mobile || '--';
+                    serviceEl.innerText = userInfo.appointment.service;
+                    tokenEl.innerText = queueData.userInfo.tokenNumber || userInfo.appointment.id.slice(0, 8).toUpperCase();
+                    posEl.innerText = "#" + adjustedPosition;
+                    aheadEl.innerText = adjustedPeopleAhead;
+                    timeEl.innerText = formatTime(expectedMin);
+                    updateEl.innerText = new Date().toLocaleTimeString();
+                    if (totalEl) totalEl.innerText = "Total Today: " + queueData.totalApproved;
+                } else {
+                    // User has no approved appointments - check for pending/rejected
+                    await loadAppointments();
+                    const userAppointments = appointments.filter(a =>
+                        (a.username || "").toLowerCase() === (currentUser.username || "").toLowerCase()
+                    );
+
+                    if (userAppointments.length > 0) {
+                        const latest = userAppointments[userAppointments.length - 1];
+                        nameEl.innerText = latest.username;
+                        mobileEl.innerText = latest.mobile || currentUser.mobile || '--';
+                        serviceEl.innerText = latest.service;
+
+                        const status = (latest.status || "").toLowerCase();
+                        if (status === 'rejected') {
+                            posEl.innerText = "Rejected";
+                            tokenEl.innerText = '--';
+                            aheadEl.innerText = "--";
+                            timeEl.innerText = "--";
+                        } else {
+                            posEl.innerText = "Pending Approval";
+                            tokenEl.innerText = latest.id ? latest.id.slice(0, 8).toUpperCase() : '--';
+                            aheadEl.innerText = "--";
+                            timeEl.innerText = "--";
+                        }
+                    } else {
+                        nameEl.innerText = currentUser.username;
+                        mobileEl.innerText = currentUser.mobile || '--';
+                        serviceEl.innerText = '--';
+                        posEl.innerText = "No Appointments";
+                        tokenEl.innerText = '--';
+                        aheadEl.innerText = "--";
+                        timeEl.innerText = "--";
+                    }
+
+                    updateEl.innerText = new Date().toLocaleTimeString();
+                    if (totalEl) totalEl.innerText = "Total Today: " + queueData.totalApproved;
+                }
+
+                // Set up auto-refresh every 30 seconds (reduced frequency since updates are now real-time)
+                if (!queueRefreshInterval) {
+                    queueRefreshInterval = setInterval(() => {
+                        if (document.getElementById("queueStatusView").style.display === "block") {
+                            showQueueStatus();
+                        } else {
+                            clearInterval(queueRefreshInterval);
+                            queueRefreshInterval = null;
+                        }
+                    }, 30000); // 30 seconds instead of 10
+                }
+            } catch (error) {
+                console.error("Queue Status Error:", error);
+                alert("Queue Status Error: " + error.message);
+            }
+        }
+
+        async function showOfficerDashboard() {
+            hideAll();
+            document.getElementById('officerView').style.display = 'block';
+            await loadAppointments();
+            const table = document.getElementById('officerAptsTable');
+            table.innerHTML = appointments.map(apt => `
+                <tr>
+                    <td>${apt.username}</td>
+                    <td>${apt.service}</td>
+                    <td>${apt.date} ${apt.time}</td>
+                    <td><span class="status-badge status-${(apt.status || '').toLowerCase()}">${apt.status || 'Pending'}</span></td>
+                    <td>
+                        ${(apt.status || '').toLowerCase() === 'pending' ? `
+                            <button class="btn-accept" onclick="updateStatus('${apt.id}', 'approved')">Approve</button>
+                            <button class="btn-reject" onclick="updateStatus('${apt.id}', 'rejected')">Reject</button>
+                        ` : '--'}
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        async function updateStatus(id, status) {
+            try {
+                // Standardize status values
+                const standardizedStatus = status === 'Accepted' ? 'approved' :
+                    status === 'Rejected' ? 'rejected' : status.toLowerCase();
+
+                await apiCall(`/appointments/${id}`, 'PATCH', { status: standardizedStatus });
+                alert(`Appointment ${standardizedStatus}`);
+
+                // Refresh officer dashboard
+                showOfficerDashboard();
+
+                // Refresh queue status if it's currently displayed
+                if (document.getElementById("queueStatusView").style.display === "block") {
+                    showQueueStatus();
+                }
+
+                // Also refresh my appointments if displayed
+                if (appointmentsView.style.display === "block") {
+                    showAppointments();
+                }
+            } catch (err) { alert(err.message); }
+        }
+
+        function updateQueueCount() {
+            const val = document.getElementById("currentServedInput").value;
+            localStorage.setItem("currentServedCount", val || 0);
+            showQueueStatus();
+        }
+
+        function hideAll() {
+            [homeDiv, servicesDiv, detailsDiv, appointmentsView, document.getElementById("queueStatusView"), document.getElementById("roleSelect")].forEach(d => { if (d) d.style.display = "none"; });
+        }
+
+        function selectCitizen() {
+            hideAll();
+            goHome();
+        }
+
+        function selectOfficer() {
+            // Simplified for demo, you would redirect to officer dashboard here
+            alert("Officer Login required for full dashboard.");
+        }
+
+        function backToServices() { showServices(); }
+
+        function backToRoleSelect() {
+            hideAll();
+            document.getElementById('roleSelect').style.display = 'flex';
+        }
+
+        window.onload = () => {
+            setupSpeechRecognition();
+            initDashboard();
+        };
+
+        // Voice
+        let recognition = null;
+        function setupSpeechRecognition() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) return;
+            recognition = new SpeechRecognition();
+            recognition.onresult = (e) => handleSpokenCommand(e.results[0][0].transcript.toLowerCase());
+        }
+
+        function toggleMic() {
+            if (!recognition) return alert("Speech recognition not supported");
+            try { recognition.start(); document.getElementById('micBtn').classList.add('listening'); } catch (e) { recognition.stop(); document.getElementById('micBtn').classList.remove('listening'); }
+        }
+
+        function handleSpokenCommand(t) {
+            document.getElementById('micBtn').classList.remove('listening');
+            if (t.includes('home')) goHome();
+            else if (t.includes('service')) showServices();
+            else if (t.includes('appointment')) showAppointments();
+            else alert("Heard: " + t);
+        }
+    </script>
+</body>
+
+</html>
