@@ -820,7 +820,8 @@
                 <label>Role</label>
                 <select id="authRole">
                     <option value="Citizen">Citizen</option>
-                    <option value="Officer">Officer</option>
+                    <option value="Officer">Government Officer</option>
+                    <option value="BankOfficer">Gazed Officer (Bank)</option>
                 </select>
             </div>
             <div>
@@ -1179,7 +1180,7 @@
             }
             document.getElementById('authSection').style.display = 'none';
             if (document.getElementById('topNav')) document.getElementById('topNav').style.display = 'flex';
-            if (currentUser.role === 'Officer') {
+            if (currentUser.role === 'Officer' || currentUser.role === 'BankOfficer') {
                 showOfficerDashboard();
             } else {
                 goHome();
@@ -1331,6 +1332,10 @@
         }
 
         function goHome() {
+            if (currentUser && (currentUser.role === 'Officer' || currentUser.role === 'BankOfficer')) {
+                showOfficerDashboard();
+                return;
+            }
             hideAll();
             homeDiv.style.display = "block";
             updateBackButton();
@@ -1469,6 +1474,11 @@
         }
 
         async function showAppointments() {
+            // Officers go directly to their own filtered dashboard
+            if (currentUser && (currentUser.role === 'Officer' || currentUser.role === 'BankOfficer')) {
+                showOfficerDashboard();
+                return;
+            }
             hideAll();
             appointmentsView.style.display = "block";
             await loadAppointments();
@@ -1647,8 +1657,21 @@
             hideAll();
             document.getElementById('officerView').style.display = 'block';
             await loadAppointments();
+
+            const bankingServiceTitles = ["Account Opening", "Loans", "Debit Card", "Credit Card", "Internet Banking", "KYC"];
+            const isBank = currentUser.role === 'BankOfficer';
+
+            // Update dashboard title based on officer type
+            const dashTitle = document.querySelector('#officerView h2');
+            if (dashTitle) dashTitle.innerText = isBank ? 'Gazed Officer Dashboard - Bank Services' : 'Government Officer Dashboard - Government Services';
+
+            const filtered = appointments.filter(apt => {
+                const isBankService = bankingServiceTitles.some(s => (apt.service || '').includes(s));
+                return isBank ? isBankService : !isBankService;
+            });
+
             const table = document.getElementById('officerAptsTable');
-            table.innerHTML = appointments.map(apt => `
+            table.innerHTML = filtered.map(apt => `
                 <tr>
                     <td>${apt.username}</td>
                     <td>${apt.service}</td>
@@ -1695,7 +1718,7 @@
         }
 
         function hideAll() {
-            [homeDiv, servicesDiv, detailsDiv, appointmentsView, document.getElementById("queueStatusView"), document.getElementById("roleSelect")].forEach(d => { if (d) d.style.display = "none"; });
+            [homeDiv, servicesDiv, detailsDiv, appointmentsView, document.getElementById("queueStatusView"), document.getElementById("roleSelect"), document.getElementById("officerView")].forEach(d => { if (d) d.style.display = "none"; });
         }
 
         function selectCitizen() {

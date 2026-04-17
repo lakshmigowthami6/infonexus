@@ -21,6 +21,12 @@
       "password": "gowthamm",
       "role": "Citizen",
       "email": "goww@gmail.com"
+    },
+    {
+      "username": "gowtha",
+      "password": "gowthammii",
+      "role": "BankOfficer",
+      "email": "gowthami12@gmail.com"
     }
   ],
   "appointments": [
@@ -96,6 +102,15 @@
       "service": "MGNREGA Job Card",
       "date": "2026-04-17",
       "time": "02:30 PM",
+      "status": "Pending"
+    },
+    {
+      "id": "1e8a6669-af3b-4344-9364-6904e2897963",
+      "username": "goww",
+      "mobile": "9704326497",
+      "service": "Loans",
+      "date": "2026-04-17",
+      "time": "10:00 AM",
       "status": "Pending"
     }
   ]
