@@ -146,7 +146,7 @@ app.post('/api/login', (req, res) => {
     const user = db.users.find(u => u.username === username && u.password === password);
 
     if (user) {
-        res.json({ message: 'Login successful', role: user.role, username: user.username, email: user.email });
+        res.json({ message: 'Login successful', role: user.role, username: user.username, email: user.email, mobile: user.mobile });
     } else {
         res.status(401).json({ message: 'Invalid credentials' });
     }
